@@ -4,8 +4,7 @@ use IEEE.std_logic_1164.all;
 entity dec_7seg is
     port (
         hex_val : in  std_logic_vector(3 downto 0);
-        seg_out : out std_logic_vector(6 downto 0) -- Actif à l'état bas (généralement sur FPGA)
-    );
+        seg_out : out std_logic_vector(6 downto 0); 
 end entity;
 
 architecture Behavioral of dec_7seg is

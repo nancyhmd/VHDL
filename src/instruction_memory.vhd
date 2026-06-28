@@ -15,27 +15,24 @@ architecture RTL of instruction_memory is
     function init_mem return RAM64x32 is
         variable result : RAM64x32;
     begin
-        -- Initialisation par défaut à 0
         for i in 63 downto 0 loop
             result(i) := (others => '0');
         end loop;
 
-        -- Chargement du programme de test (Annexes du sujet)
-        result(0) := x"E3A01010"; -- main: MOV R1, #0x10  (R1 <= 0x10)
-        result(1) := x"E3A02000"; --       MOV R2, #0     (R2 <= 0)
-        result(2) := x"E4110000"; -- loop: LDR R0, 0(R1)  (R0 <= DATAMEM[R1])
-        result(3) := x"E0822000"; --       ADD R2, R2, R0 (R2 <= R2 + R0)
-        result(4) := x"E2811001"; --       ADD R1, R1, #1 (R1 <= R1 + 1)
-        result(5) := x"E351001A"; --       CMP R1, #0x1A  (Flags <= R1 - 0x1A)
-        result(6) := x"BAFFFFFB"; --       BLT loop       (Saut si R1 < 0x1A)
-        result(7) := x"E4012000"; --       STR R2, 0(R1)  (DATAMEM[R1] <= R2)
-        result(8) := x"EAFFFFF7"; --       BAL main       (Boucle infinie)
+        result(0) := x"E3A01010"; -- main: MOV R1, #0x10 
+        result(1) := x"E3A02000"; --       MOV R2, #0    
+        result(2) := x"E4110000"; -- loop: LDR R0, 0(R1) 
+        result(3) := x"E0822000"; --       ADD R2, R2, R0
+        result(4) := x"E2811001"; --       ADD R1, R1, #1
+        result(5) := x"E351001A"; --       CMP R1, #0x1A  
+        result(6) := x"BAFFFFFB"; --       BLT loop      
+        result(7) := x"E4012000"; --       STR R2, 0(R1)  
+        result(8) := x"EAFFFFF7"; --       BAL main      
 
         return result;
     end function;
 
     signal mem : RAM64x32 := init_mem;
 begin
-    -- Lecture asynchrone basée sur l'adresse du PC convertie en entier
     Instruction <= mem(to_integer(unsigned(PC)));
 end architecture;

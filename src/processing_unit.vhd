@@ -23,29 +23,23 @@ architecture Structural of processing_unit is
     signal busA, busB, busB_mux, alu_out, data_out, busW : std_logic_vector(31 downto 0);
     signal imm_ext : std_logic_vector(31 downto 0);
 begin
-    -- Instanciation Banc de Registres
     REG_FILE_INST : entity work.reg_file
         port map (CLK => CLK, Reset => RST, W => busW, RA => RA, RB => RB, RW => RW, WE => RegWr, A => busA, B => busB);
 
-    -- Instanciation Extenseur de signe
     IMM_EXT_INST : entity work.sign_extender
         generic map (N => 8)
         port map (E => Immediat, S => imm_ext);
 
-    -- Mux ALU source
     MUX_ALU_SRC : entity work.mux2x1
         generic map (N => 32)
         port map (A => busB, B => imm_ext, COM => ALUSrc, S => busB_mux);
 
-    -- Instanciation ALU
     ALU_INST : entity work.alu
         port map (OP => ALUCtr, A => busA, B => busB_mux, S => alu_out, N => Flags_NZ(1), Z => Flags_NZ(0));
 
-    -- Instanciation Mémoire de Données
     DATA_MEM_INST : entity work.data_memory
-        port map (CLK => CLK, Reset => RST, DataIn => busB, Addr => alu_out(5 downto 0), WrEn => MemWr, DataOut => data_out); [cite: 3286]
+        port map (CLK => CLK, Reset => RST, DataIn => busB, Addr => alu_out(5 downto 0), WrEn => MemWr, DataOut => data_out); 
 
-    -- Mux Sortie Mémoire vers Registre
     MUX_MEM_TO_REG : entity work.mux2x1
         generic map (N => 32)
         port map (A => alu_out, B => data_out, COM => MemtoReg, S => busW);

@@ -18,8 +18,8 @@ begin
         if RST = '1' then
             DATAOUT <= (others => '0');
         elsif rising_edge(CLK) then
-            if WE = '1' then [cite: 3336]
-                DATAOUT <= DATAIN; [cite: 3336]
+            if WE = '1' then
+                DATAOUT <= DATAIN;
             end if;
         end if;
     end process;

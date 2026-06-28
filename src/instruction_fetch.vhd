@@ -42,5 +42,5 @@ begin
 
     -- Instanciation de la mémoire d'instructions (fournie) [cite: 3299]
     INST_MEM : entity work.instruction_memory
-        port map (PC => PC_reg, Instruction => Instruction); [cite: 3525]
+        port map (PC => PC_reg, Instruction => Instruction);
 end architecture;
