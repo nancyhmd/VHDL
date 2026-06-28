@@ -15,7 +15,8 @@ entity processing_unit is
         MemtoReg   : in  std_logic;
         Immediat   : in  std_logic_vector(7 downto 0);
         Flags_NZ   : out std_logic_vector(1 downto 0);
-        BusW_out   : out std_logic_vector(31 downto 0)
+        BusW_out   : out std_logic_vector(31 downto 0);
+        BusB_out   : out std_logic_vector(31 downto 0) 
     );
 end entity;
 
@@ -38,11 +39,12 @@ begin
         port map (OP => ALUCtr, A => busA, B => busB_mux, S => alu_out, N => Flags_NZ(1), Z => Flags_NZ(0));
 
     DATA_MEM_INST : entity work.data_memory
-        port map (CLK => CLK, Reset => RST, DataIn => busB, Addr => alu_out(5 downto 0), WrEn => MemWr, DataOut => data_out); 
+        port map (CLK => CLK, Reset => RST, DataIn => busB, Addr => alu_out(5 downto 0), WrEn => MemWr, DataOut => data_out);
 
     MUX_MEM_TO_REG : entity work.mux2x1
         generic map (N => 32)
         port map (A => alu_out, B => data_out, COM => MemtoReg, S => busW);
 
     BusW_out <= busW;
+    BusB_out <= busB; 
 end architecture;
