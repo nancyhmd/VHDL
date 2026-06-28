@@ -33,5 +33,5 @@ add wave -divider "REGISTRE ETAT (PSR)"
 add wave -label "Drapeau Negatif (N)"           sim:/tb_solomono_processor/UUT/psr_out(31)
 add wave -label "Drapeau Zero (Z)"              sim:/tb_solomono_processor/UUT/psr_out(30)
 
-run 300 ns
+run 500 ns
 wave zoom full
